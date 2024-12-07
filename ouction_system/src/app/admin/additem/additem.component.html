@@ -1,0 +1,140 @@
+<nav class="bg-white py-2 shadow-md">
+  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="relative flex items-center justify-between h-16">
+      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+        <!-- Mobile menu button (optional) -->
+      </div>
+      <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex-shrink-0">
+          <img src="/assets/bidsphere.png" class="w-40 h-14" alt="Logo" />
+        </div>
+      </div>
+      <div class="flex space-x-4">
+        <!-- Menu Items -->
+        <a 
+          href="/admin" 
+          class="text-black hover:text-red-700 px-3 py-2 rounded-md text-2xl font-medium font-caveat"
+        >
+          Home
+        </a>
+
+
+        <a 
+        href="/admin/disputes" 
+        class="text-black hover:text-red-700 px-3 py-2 rounded-md text-2xl font-medium font-caveat"
+      >
+        View Disputes
+      </a>
+
+
+
+        <!-- Other menu items hidden on small screens -->
+        <a 
+          href="/admin/sellerreport" 
+          class="hidden sm:flex text-black hover:text-red-700 px-3 py-2 rounded-md text-2xl font-medium font-caveat"
+        >
+          Sellers Reports
+        </a>
+        <a 
+          href="/admin/buyerreport" 
+          class="hidden sm:flex text-black hover:text-red-700 px-3 py-2 rounded-md text-2xl font-medium font-caveat"
+        >
+          Buyers Reports
+        </a>
+
+        
+
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+<div class="flex items-center justify-center min-h-screen font-caveat bg-cover bg-center relative" 
+     style="background-image: url('assets/walpaper.jpg');">
+  <!-- Overlay for Transparency -->
+  <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
+
+  <!-- Form Container -->
+  <div 
+    class="relative z-10 p-8 rounded-lg shadow-md shadow-red-500 w-full max-w-md bg-white bg-opacity-90"
+  >
+    <!-- Form Content -->
+    <div>
+      <h2 class="text-2xl font-bold mb-6 text-center text-black">Create New Item</h2>
+      <form (ngSubmit)="submitForm()" class="space-y-4">
+        <div>
+          <label for="name" class="block text-black font-medium mb-1">Item Name:</label>
+          <input 
+            type="text" 
+            id="name" 
+            [(ngModel)]="name" 
+            name="name" 
+            required 
+            class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          />
+        </div>
+    
+        <div>
+          <label for="description" class="block text-black font-medium mb-1">Description:</label>
+          <textarea 
+            id="description" 
+            [(ngModel)]="description" 
+            name="description" 
+            required 
+            class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          ></textarea>
+        </div>
+    
+        <div>
+          <label for="image" class="block text-black font-medium mb-1">Image:</label>
+          <input 
+            type="text" 
+            id="image" 
+            [(ngModel)]="image" 
+            name="image" 
+            required 
+            class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          />
+        </div>
+    
+        <div>
+          <label for="category" class="block text-black font-medium mb-1">Category:</label>
+          <input 
+            type="text" 
+            id="category" 
+            [(ngModel)]="category" 
+            name="category" 
+            required 
+            class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          />
+        </div>
+    
+        <div>
+          <label for="tags" class="block text-black font-medium mb-1">Tags:</label>
+          <input 
+            type="text" 
+            id="tags" 
+            [(ngModel)]="tags" 
+            name="tags" 
+            class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          />
+        </div>
+    
+        <button 
+          type="submit" 
+          class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-orange-600 transition duration-300"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,85 @@
+<!-- navbar.component.html -->
+<nav class="bg-white py-2 shadow-md">
+  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="relative flex items-center justify-between h-16">
+      <!-- Logo -->
+      <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex-shrink-0">
+          <img src="/assets/bidsphere.png" alt="Bidsphere Logo" class="w-40 h-14">
+        </div>
+      </div>
+
+      <!-- Menu Items -->
+      <div class="flex space-x-4">
+        
+        <a 
+          href="/seller/report" 
+          class="hidden sm:block text-black hover:text-red-700 px-3 py-2 rounded-md text-2xl font-medium font-caveat"
+        >
+          Seller Reports
+        </a>
+
+        <a 
+          href="/login" 
+          class="hidden sm:block text-black hover:text-red-700 px-3 py-2 rounded-md text-2xl font-medium font-caveat"
+        >
+          Login
+        </a>
+
+
+      </div>
+
+      
+    </div>
+  </div>
+</nav>
+
+
+<h1 class="text-5xl font-caveat font-bold text-center m-6">List Of Items</h1>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mx-auto max-w-screen-xl p-4">
+  <div 
+    *ngFor="let item of items" 
+    class="w-60 min-h-60  transition-transform duration-200 ease-in-out transform hover:scale-105"
+  >
+    <div class="relative">
+      <img [src]="item.image" alt="{{ item.name }}" class="w-full h-36 rounded-md" />
+    </div>
+    <div class="flex-col font-caveat">
+      <h1 class="font-bold text-black text-lg mt-2">{{ item.name }}</h1>
+      <p class="text-gray-500 ">{{ item.category }}</p>
+    </div>
+    <button class="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition" (click)="navigateToRegister(item)" >Register</button>
+  </div>
+</div>
+
+
+
+<footer class="bg-white text-black py-6 shadow-lg mt-8 font-medium font-caveat">
+  <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
+    <!-- Website Logo -->
+    <div class="flex items-center space-x-3">
+      <img src="assets/bidsphere.png" alt="Website Logo" class="h-10 w-auto">
+      <span class="text-xl font-bold"></span>
+    </div>
+
+    <!-- Contact Us -->
+    <div class="mt-4 md:mt-0 text-center md:text-left">
+      <h4 class="text-lg font-semibold">Contact Us</h4>
+      <p class="text-sm">rakshitha&#64;gmail.com</p>
+      <p class="text-sm">+123 456 7890</p>
+    </div>
+
+    <!-- Social Media Icons -->
+    <div class="mt-4 md:mt-0 flex space-x-4">
+      <a href="https://www.linkedin.com" target="_blank">
+        <img src="assets/linkedin1.webp" alt="LinkedIn" class="h-8 w-8">
+      </a>
+      <a href="https://www.instagram.com" target="_blank">
+        <img src="assets/instagram.png" alt="Instagram" class="h-8 w-8">
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+  

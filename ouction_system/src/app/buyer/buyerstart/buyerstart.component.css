@@ -1,0 +1,7 @@
+/* In your CSS file (e.g., styles.css) */
+.text-shadow {
+    text-shadow: 2px 2px 4px orangered;
+}
+.height{
+    height: 500px;
+}

@@ -1,0 +1,317 @@
+<nav class="bg-white py-2 shadow-md">
+    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+      <div class="relative flex items-center justify-between h-16">
+        <!-- Logo -->
+        <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex-shrink-0">
+            <img src="/assets/bidsphere.png" alt="Bidsphere Logo" class="w-40 h-14">
+          </div> 
+        </div>
+
+
+        <!--Search Field-->
+        <div>
+          
+        </div>
+  
+        <!-- Menu Items -->
+        <div class="flex space-x-4">
+          <a 
+            href="/buyer" 
+            class="text-black hover:text-red-700 px-3 py-2 rounded-md text-2xl font-medium font-caveat"
+          >
+            Home
+          </a>
+          <a 
+            href="/buyer/buyerreport" 
+            class="hidden sm:block text-black hover:text-red-700 px-3 py-2 rounded-md text-2xl font-medium font-caveat"
+          >
+            Buyers Reports
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+
+
+
+
+<!-- Buyer Login Section -->
+<div *ngIf="!isBuyerLoggedIn" class="login-section flex justify-center items-center space-x-4 m-4 font-caveat">
+  <div class="flex items-center space-x-4">
+    <label for="username" class="text-lg font-medium">Enter Username:</label>
+    <input 
+      [(ngModel)]="buyerUsername" 
+      type="text" 
+      id="username" 
+      placeholder="Enter your username" 
+      class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+    />
+    <button 
+      (click)="fetchBuyerId()" 
+      class="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-orange-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
+      [disabled]="!buyerUsername"
+    >
+      Start Bidding
+    </button>
+  </div>
+</div>
+
+
+
+
+<!-- Search Bar -->
+<div class="flex justify-center space-x-4 my-4 font-caveat">
+  <input 
+    type="text" 
+    placeholder="Search by item name" 
+    [(ngModel)]="searchTerm" 
+    class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent"
+  />
+  <select 
+    [(ngModel)]="selectedCategory" 
+    class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent"
+  >
+    <option value="">All Categories</option>
+    <option *ngFor="let category of uniqueCategories" [value]="category">{{ category }}</option>
+  </select>
+  <button 
+    (click)="filterAuctions()" 
+    class="bg-red-700 text-white px-6 py-2 rounded-md hover:bg-red-800 transition"
+  >
+    Search
+  </button>
+</div>
+
+
+
+
+
+
+
+
+<!-- Filter -->
+
+<div class="flex space-x-4 mb-4 font-caveat">
+  <button 
+    (click)="filterByPopularity()" 
+    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+    Filter by Popularity
+  </button>
+  <button 
+    (click)="filterByEndingSoon()" 
+    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+    Filter by Ending Soon
+  </button>
+</div>
+
+
+<!-- Auction Grid-->
+<div *ngIf="issearch" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-auto max-w-screen-xl p-4">
+  <div 
+    class="w-60 min-h-60 transition-transform duration-200 ease-in-out transform hover:scale-105" 
+    *ngFor="let auction of filteredAuctions"
+  >
+    <div>
+      <img 
+        [src]="auction.itemImage" 
+        alt="Item Image" 
+        class="w-full h-36 rounded-md"
+      />
+    </div>
+    
+    <div class="flex-col font-caveat space-y-2">
+      <h3 class="text-lg font-bold">{{ auction.itemName }}</h3>
+      <p class="text-gray-700">Category: {{ auction.itemCategory }}</p>
+      <p class="text-gray-700">Starting Price: {{ auction.startingPrice }}</p>
+      <p class="text-gray-700 text-red-700 font-medium">Current Bid: {{ auction.currentBid }}</p>
+
+      <div>
+        <p class="text-sm text-white bg-red-500 text-white p-2 rounded-md shadow-lg font-bold">
+          <!-- Display Time Left or "Time Up" based on auction status -->
+          {{ calculateTimeLeft(auction.bidEndTime, auction.auctionId) }}
+        </p>
+      </div>
+      <input
+        type="number"
+        [(ngModel)]="bidAmount[auction.auctionId]"
+        (input)="enableBidButton(auction.auctionId, auction.currentBid)"
+        placeholder="Enter your bid"
+        [disabled]="isBidDisabled[auction.auctionId]"  
+        class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent disabled:bg-gray-200"
+      />
+      <button
+        [disabled]="!isBidEnabled[auction.auctionId] || isBidDisabled[auction.auctionId]" 
+        (click)="placeBid(auction.auctionId)"
+        [class.bg-gray-300]="isBidDisabled[auction.auctionId]"
+        [class.text-gray-500]="isBidDisabled[auction.auctionId]"
+        [class.bg-red-700]="!isBidDisabled[auction.auctionId]"
+        [class.hover:bg-orange-700]="!isBidDisabled[auction.auctionId]"
+        [class.text-white]="!isBidDisabled[auction.auctionId]"
+        class="px-6 py-2 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Bid Now
+      </button>
+
+      <div *ngIf="lastBidder[auction.auctionId]?.buyerId === buyerId && isBuyerLoggedIn">
+        <p class="text-green-500 font-semibold">You Win!</p>
+        <button 
+          (click)="purchaseItem(auction.auctionId)" 
+          class="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-700 transition"
+        >
+          Purchase
+        </button>
+      </div>
+    </div>
+  </div>
+</div>  
+
+
+
+
+<!-- Auction Grid -->
+<div *ngIf="isfilter" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-auto max-w-screen-xl p-4">
+  <div 
+    class="w-60 min-h-60 transition-transform duration-200 ease-in-out transform hover:scale-105" 
+    *ngFor="let auction of filteredAuctions"
+  >
+    <div>
+      <img 
+        [src]="auction.itemImage" 
+        alt="Item Image" 
+        class="w-full h-36 rounded-md"
+      />
+    </div>
+    <div class="flex-col font-caveat space-y-2">
+      <h3 class="text-lg font-bold">{{ auction.itemName }}</h3>
+      <p class="text-gray-700">Category: {{ auction.itemCategory }}</p>
+      <p class="text-gray-700">Starting Price: {{ auction.startingPrice }}</p>
+      <p class="text-gray-700 text-red-700 font-medium">Current Bid: {{ auction.currentBid }}</p>
+      <div>
+        <p class="text-sm text-white bg-red-500 text-white p-2 rounded-md shadow-lg font-bold">
+          <!-- Display Time Left or "Time Up" based on auction status -->
+          {{ calculateTimeLeft(auction.bidEndTime, auction.auctionId) }}
+        </p>
+      </div>
+      <input
+        type="number"
+        [(ngModel)]="bidAmount[auction.auctionId]"
+        (input)="enableBidButton(auction.auctionId, auction.currentBid)"
+        placeholder="Enter your bid"
+        [disabled]="isBidDisabled[auction.auctionId]"  
+        class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent disabled:bg-gray-200"
+      />
+      <button
+        [disabled]="!isBidEnabled[auction.auctionId] || isBidDisabled[auction.auctionId]" 
+        (click)="placeBid(auction.auctionId)"
+        [class.bg-gray-300]="isBidDisabled[auction.auctionId]"
+        [class.text-gray-500]="isBidDisabled[auction.auctionId]"
+        [class.bg-red-700]="!isBidDisabled[auction.auctionId]"
+        [class.hover:bg-orange-700]="!isBidDisabled[auction.auctionId]"
+        [class.text-white]="!isBidDisabled[auction.auctionId]"
+        class="px-6 py-2 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Bid Now
+      </button>
+
+      <div *ngIf="lastBidder[auction.auctionId]?.buyerId === buyerId && isBuyerLoggedIn">
+        <p class="text-green-500 font-semibold">You Win!</p>
+        <button 
+          (click)="purchaseItem(auction.auctionId)" 
+          class="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-700 transition"
+        >
+          Purchase
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Auction Grid -->
+<div *ngIf="!issearch && !isfilter" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mx-auto max-w-screen-xl p-4">
+  <div 
+    class="w-60 min-h-60 transition-transform duration-200 ease-in-out transform hover:scale-105" 
+    *ngFor="let auction of auctions"
+  >
+    <div>
+      <img 
+        [src]="auction.itemImage" 
+        alt="Item Image" 
+        class="w-full h-36 rounded-md"
+      />
+    </div>
+    
+    <div class="flex-col font-caveat space-y-2">
+      <h3 class="text-lg font-bold">{{ auction.itemName }}</h3>
+      <p class="text-gray-700">Category: {{ auction.itemCategory }}</p>
+      <p class="text-gray-700">Starting Price: {{ auction.startingPrice }}</p>
+      <p class="text-gray-700 text-red-700 font-medium">Current Bid: {{ auction.currentBid }}</p>
+      <div>
+        <p class="text-sm text-white bg-red-500 text-white p-2 rounded-md shadow-lg font-bold">
+          <!-- Display Time Left or "Time Up" based on auction status -->
+          {{ calculateTimeLeft(auction.bidEndTime, auction.auctionId) }}
+        </p>
+      </div>
+      <input
+        type="number"
+        [(ngModel)]="bidAmount[auction.auctionId]"
+        (input)="enableBidButton(auction.auctionId, auction.currentBid)"
+        placeholder="Enter your bid"
+        [disabled]="isBidDisabled[auction.auctionId]"  
+        class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent disabled:bg-gray-200"
+      />
+      <button
+        [disabled]="!isBidEnabled[auction.auctionId] || isBidDisabled[auction.auctionId]" 
+        (click)="placeBid(auction.auctionId)"
+        [class.bg-gray-300]="isBidDisabled[auction.auctionId]"
+        [class.text-gray-500]="isBidDisabled[auction.auctionId]"
+        [class.bg-red-700]="!isBidDisabled[auction.auctionId]"
+        [class.hover:bg-orange-700]="!isBidDisabled[auction.auctionId]"
+        [class.text-white]="!isBidDisabled[auction.auctionId]"
+        class="px-6 py-2 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Bid Now
+      </button>
+
+
+
+<!-- Dispute Submission -->
+<textarea 
+[(ngModel)]="dispute[auction.auctionId]" 
+placeholder="Enter your dispute details"
+class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent w-full"
+></textarea>
+<button 
+(click)="submitDispute(auction.auctionId)" 
+class="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-700 transition"
+>
+Submit Dispute
+</button>
+
+
+
+      <div *ngIf="lastBidder[auction.auctionId]?.buyerId === buyerId && isBuyerLoggedIn">
+        <p class="text-green-500 font-semibold">You Win!</p>
+        <button 
+          (click)="purchaseItem(auction.auctionId)" 
+          class="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-700 transition"
+        >
+          Purchase
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

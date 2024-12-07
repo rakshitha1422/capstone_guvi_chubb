@@ -1,0 +1,119 @@
+
+<nav class="bg-white py-2 shadow-md">
+  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="relative flex items-center justify-between h-16">
+      <!-- Logo -->
+      <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex-shrink-0">
+          <img src="/assets/bidsphere.png" alt="Bidsphere Logo" class="w-40 h-14">
+        </div>
+      </div>
+
+      <!-- Menu Items -->
+      <div class="flex space-x-4">
+        
+        <a 
+          href="seller/report" 
+          class="hidden sm:block text-black hover:text-red-700 px-3 py-2 rounded-md text-2xl font-medium font-caveat"
+        >
+          Seller Reports
+        </a>
+
+        <a 
+          href="/seller" 
+          class="hidden sm:block text-black hover:text-red-700 px-3 py-2 rounded-md text-2xl font-medium font-caveat"
+        >
+          Home
+        </a>
+
+
+      </div>
+
+      
+    </div>
+  </div>
+</nav>
+
+
+
+
+<div class="register-form-container max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg space-y-6 m-8">
+  <h2 class="text-2xl font-semibold text-center">Register Auction</h2>
+  <form (ngSubmit)="submitForm()" class="space-y-4">
+    
+    <!-- Username -->
+    <div>
+      <label for="username" class="block text-lg font-medium text-gray-700">Username:</label>
+      <input 
+        type="text" 
+        id="username" 
+        [(ngModel)]="username" 
+        name="username" 
+        required 
+        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+      />
+    </div>
+
+    <!-- Start Price -->
+    <div>
+      <label for="startPrice" class="block text-lg font-medium text-gray-700">Start Price:</label>
+      <input 
+        type="number" 
+        id="startPrice" 
+        [(ngModel)]="startPrice" 
+        name="startPrice" 
+        required 
+        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+      />
+    </div>
+
+    <!-- Reserve Price -->
+    <div>
+      <label for="reservePrice" class="block text-lg font-medium text-gray-700">Reserve Price:</label>
+      <input 
+        type="number" 
+        id="reservePrice" 
+        [(ngModel)]="reservePrice" 
+        name="reservePrice" 
+        required 
+        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+      />
+    </div>
+
+    <!-- Start Bid Time -->
+    <div>
+      <label for="startBidTime" class="block text-lg font-medium text-gray-700">Start Bid Time:</label>
+      <input 
+        type="datetime-local" 
+        id="startBidTime" 
+        [(ngModel)]="startBidTime" 
+        name="startBidTime" 
+        required 
+        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+      />
+    </div>
+
+    <!-- End Bid Time -->
+    <div>
+      <label for="endBidTime" class="block text-lg font-medium text-gray-700">End Bid Time:</label>
+      <input 
+        type="datetime-local" 
+        id="endBidTime" 
+        [(ngModel)]="endBidTime" 
+        name="endBidTime" 
+        required 
+        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+      />
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex justify-center">
+      <button 
+        type="submit" 
+        class="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

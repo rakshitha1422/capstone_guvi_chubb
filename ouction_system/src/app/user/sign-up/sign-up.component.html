@@ -1,0 +1,182 @@
+<nav class="bg-white py-2 ">
+  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div class="relative flex items-center justify-between h-16">
+      <!-- Logo -->
+      <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex-shrink-0">
+          <img src="/assets/bidsphere.png" alt="Bidsphere Logo" class="w-40 h-14">
+        </div>
+      </div>
+
+      <!-- Menu Items -->
+      <div class="flex space-x-4">
+        
+
+        <a 
+          href="/login" 
+          class="hidden sm:block text-black hover:text-red-700 px-3 py-2 rounded-md text-2xl font-medium font-caveat"
+        >
+          Login
+        </a>
+
+
+      </div>
+
+      
+    </div>
+  </div>
+</nav>
+
+
+<div
+  class="min-h-screen relative bg-cover bg-center font-caveat"
+  style="background-image: url('assets/home2.jpg');"
+>
+  <!-- Background Overlay for Opacity -->
+  <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
+
+  <!-- Foreground Container -->
+  <div class="relative z-10 flex items-center justify-center min-h-screen">
+    <div class="container mx-auto bg-white shadow-md rounded-lg overflow-hidden flex flex-col md:flex-row max-w-4xl">
+      <!-- Left Section (Image) -->
+      <div
+        class="hidden md:block w-1/2 bg-cover bg-center"
+        style="background-image: url('assets/auction1.avif')"
+      ></div>
+
+      <!-- Right Section (Signup Form) -->
+      <div class="w-full md:w-1/2 p-8">
+        <h1 class="text-2xl font-bold mb-6 text-center">User Registration</h1>
+        <form class="space-y-4 mx-auto max-w-sm">
+          <!-- Username Field -->
+          <div>
+            <label
+              for="username"
+              class="block text-gray-700 font-semibold mb-2"
+            >Username</label>
+            <input
+              type="text"
+              id="username"
+              [(ngModel)]="username"
+              name="username"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              (blur)="checkUsernameAvailability()"
+            />
+            <small
+              *ngIf="isUsernameAvailable === false"
+              class="text-red-500"
+            >
+              This username is already in use. Please choose a different one.
+            </small>
+            <small
+              *ngIf="isUsernameAvailable === true"
+              class="text-green-500"
+            >
+              This username is available.
+            </small>
+          </div>
+
+          <!-- Email Field -->
+          <div>
+            <label
+              for="email"
+              class="block text-gray-700 font-semibold mb-2"
+            >Email</label>
+            <input
+              type="email"
+              [(ngModel)]="email"
+              name="email"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              id="email"
+              placeholder="Enter Email"
+            />
+          </div>
+
+          <!-- Password Field -->
+          <div>
+            <label
+              for="password"
+              class="block text-gray-700 font-semibold mb-2"
+            >Password</label>
+            <input
+              type="password"
+              [(ngModel)]="password"
+              name="password"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              id="password"
+              placeholder="Enter Password"
+            />
+          </div>
+
+          <!-- Role Field -->
+          <div>
+            <label
+              for="role"
+              class="block text-gray-700 font-semibold mb-2"
+            >Role</label>
+            <select
+              [(ngModel)]="role"
+              name="role"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              id="role"
+            >
+              <option value="" disabled selected>Select Role</option>
+              <option value="Admin">Admin</option>
+              <option value="Seller">Seller</option>
+              <option value="Buyer">Buyer</option>
+            </select>
+          </div>
+
+          <!-- Unique Code Section -->
+          <div class="flex justify-center">
+            <button
+              type="button"
+              class="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+              (click)="getUniqueCode()"
+            >
+              Get Unique Code
+            </button>
+          </div>
+          <div>
+            <label
+              for="enteredUniqueCode"
+              class="block text-gray-700 font-semibold mb-2"
+            >Enter Unique Code:</label>
+            <div class="flex space-x-2">
+              <input
+                type="text"
+                id="enteredUniqueCode"
+                [(ngModel)]="enteredUniqueCode"
+                name="enteredUniqueCode"
+                class="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <button
+                type="button"
+                class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+                (click)="verifyCode()"
+              >
+                Verify
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="flex justify-center">
+            <button
+              type="button"
+              class="w-20 bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+              (click)="register()"
+            >
+              Signup
+            </button>
+          </div>
+        </form>
+        <p class="text-center mt-4">
+          Already have an account?
+          <a href="/login" class="text-red-500 hover:underline">Login</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+

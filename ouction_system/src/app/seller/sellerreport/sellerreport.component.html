@@ -1,0 +1,45 @@
+<nav class="bg-white py-2 shadow-md">
+    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+      <div class="relative flex items-center justify-between h-16">
+        <!-- Logo -->
+        <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex-shrink-0">
+            <img src="/assets/bidsphere.png" alt="Bidsphere Logo" class="w-40 h-14">
+          </div> 
+        </div>
+        <!-- Menu Items -->
+        <div class="flex space-x-4">
+          <a 
+            href="/seller" 
+            class="text-black hover:text-red-700 px-3 py-2 rounded-md text-2xl font-medium font-caveat"
+          >
+            Home
+          </a>
+    
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  
+
+
+  <div class="w-4/5 h-[500px] mx-auto p-5 flex items-center justify-center font-caveat">
+    <canvas id="barChart" class="font-caveat"></canvas>
+  </div>
+  
+
+
+  <h1 class="text-5xl font-bold text-center m-4 font-caveat">Seller Revenue Details</h1>
+  <div class="h-screen overflow-y-scroll p-4 border border-gray-300 rounded-lg bg-gray-50 flex flex-col gap-4 font-caveat">
+    
+    <div class="card bg-white shadow-md rounded-md p-4" *ngFor="let seller of sellerdetails">
+      <h3 class="text-lg font-semibold mb-2">{{ seller.sellerName }}</h3>
+      <p class="text-sm mb-1">
+        <strong>Item Name: </strong> {{ seller.itemName }}
+      </p>
+      <p class="text-sm">
+        <strong>Revenue:</strong> {{ seller.revenue | currency }}
+      </p>
+    </div>
+  </div>
